@@ -1,5 +1,10 @@
 import React from 'react'
-import { View, Text, ActivityIndicator, ScrollView, StyleSheet, Image, SafeAreaView, Button } from 'react-native'
+import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, FlatList, Dimensions,
+} from 'react-native'
+
+const { width, height } = Dimensions.get('window');
+
+const equalWidth =  (width / 2 );
 
 
 export default class CommunityScreen extends React.Component {
@@ -21,6 +26,24 @@ export default class CommunityScreen extends React.Component {
         }
     };
 
+    _renderItem = ({item}) => (
+        <Image  style={{ height: 150,  width : equalWidth}} source={{uri: item.imageUrl}} />
+    );
+
+
+    renderMembers =  ({id, name, communityRate, totalRate, interactionsWithUser, imageUrl}, i ) => {
+        return (
+                <Image
+                    key={i}
+                    resizeMode="contain"
+                    source={{uri: imageUrl}}
+                    style={styles.membersImage}
+                />
+        )
+    };
+
+    _keyExtractor = (item, index) => item.id;
+
     renderCommunity = ({id, name, address, members, rate, img_url}) => {
         return (
 
@@ -33,9 +56,17 @@ export default class CommunityScreen extends React.Component {
                         source={{uri: img_url}}
                         style={styles.communityImage}
                     />
-                <Text style={styles.mainQuestion}>
-                Are you in {name} ?
+                <Text style={styles.mainTitle}>
+                {name}
                 </Text>
+                <FlatList
+                    data={members}
+                    keyExtractor={this._keyExtractor}     //has to be unique
+                    renderItem={this._renderItem} //method to render the data in the way you want using styling u need
+                    horizontal={false}
+                    numColumns={2}
+                    style={styles.flatList}
+                />
             </View>
         )
     };
@@ -64,7 +95,6 @@ export default class CommunityScreen extends React.Component {
         return (
             <SafeAreaView style={{flex : 1}}>
                 {this.renderCommunity(community)}
-                <Text>yo</Text>
             </SafeAreaView>
         )
     }
@@ -82,16 +112,26 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         flex: 1
     },
+    membersContainer: {
+        flexDirection: 'row',
+        flex: 1,
+        marginLeft: '2.5%',
+        marginRight: '2.5%',
+        backgroundColor: 'yellow',
+    },
+    membersImage: {
+        width: '5%',
+        height: 150,
+        margin: '2.5%',
+        top: 0,
+    },
     buttonContainer: {
         flexDirection: 'row',
         flex: 1,
         position: 'absolute',
         bottom: 0,
         justifyContent: 'center',
-        // alignItems: 'center',
-        // alignSelf: 'stretch',
         width: '100%'
-
     },
     center: {
         flex: 1,
@@ -103,13 +143,18 @@ const styles = StyleSheet.create({
         backgroundColor: 'skyblue',
     },
     communityImage: {
-        height: 300,
+        height: 200,
     },
-    mainQuestion: {
-        flex:1,
+    mainTitle: {
+        color: 'white',
         fontSize: 30,
-        marginTop: 10,
-        textAlign:'center',
-        height:100
+        paddingLeft: 10,
+        height: 40,
+        width: '100%',
+        position: 'absolute',
+        backgroundColor: 'rgba(0,0,0,0.4)'
+    },
+    flatList: {
+        marginTop: 10
     }
 });
