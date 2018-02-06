@@ -1,14 +1,22 @@
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons'; // 6.2.2
-import { TabNavigator, TabBarBottom } from 'react-navigation'; // 1.0.0-beta.27
+import { TabNavigator, TabBarBottom, StackNavigator } from 'react-navigation'; // 1.0.0-beta.27
 import ProfileScreen from './components/ProfileScreen';
 import CommunityScreen from './components/CommunityScreen';
 import CommunitiesScreen from './components/CommunitiesScreen';
+import CommunityQuestionScreen from './components/CommunityQuestionScreen';
+
+
+
+const CommunityStack = StackNavigator({
+    CommunityQuestion: { screen: CommunityQuestionScreen },
+    Community: { screen: CommunityScreen },
+});
 
 export default TabNavigator(
     {
         Profile: { screen: ProfileScreen },
-        Community: { screen: CommunityScreen },
+        Community: { screen: CommunityStack },
         Communities: { screen: CommunitiesScreen },
     },
     {

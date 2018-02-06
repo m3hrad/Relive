@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, ActivityIndicator, ScrollView, StyleSheet, Image, SafeAreaView, Button } from 'react-native'
 
 
-export default class CommunityScreen extends React.Component {
+export default class CommunityQuestionScreen extends React.Component {
 
     state = {
         loading: true,
@@ -64,7 +64,20 @@ export default class CommunityScreen extends React.Component {
         return (
             <SafeAreaView style={{flex : 1}}>
                 {this.renderCommunity(community)}
-                <Text>yo</Text>
+                <View style={styles.buttonContainer}>
+                    <Button
+                        title="NO"
+                        onPress={() => this.props.navigation.navigate('Search')}
+                        style={styles.button}
+                    />
+                    <View style={styles.emptyView}>
+                    </View>
+                    <Button
+                        style={styles.button}
+                        title="YES"
+                        onPress={() => this.props.navigation.navigate('Community')}
+                    />
+                </View>
             </SafeAreaView>
         )
     }
@@ -86,11 +99,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flex: 1,
         position: 'absolute',
-        bottom: 0,
+        bottom: 10,
         justifyContent: 'center',
-        // alignItems: 'center',
-        // alignSelf: 'stretch',
-        width: '100%'
+        // width: '100%',
+        marginRight: 20,
+        marginLeft: 20,
 
     },
     center: {
