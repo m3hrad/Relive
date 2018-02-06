@@ -8,37 +8,42 @@ export default class CommunityScreen extends React.Component {
     state = {
         loading: true,
         error: false,
-        posts: [],
+        community: {}
     };
 
     componentWillMount = async () => {
         try {
-            const response = await fetch('https://jsonplaceholder.typicode.com/posts');
-            const posts = await response.json();
+            const response = await fetch('https://relivee.herokuapp.com/communities/current');
+            const community = await response.json();
 
-            this.setState({loading: false, posts})
+            this.setState({loading: false, community: community})
         } catch (e) {
             this.setState({loading: false, error: true})
         }
     };
 
-    renderPost = ({id, title, body}, i) => {
+    renderCommunity = ({name, address, members, rate}) => {
         return (
             <View
-                key={id}
+                key={1}
                 style={styles.post}
             >
                 <View style={styles.postNumber}>
                     <Text>
-                        {i + 1}
+                        {name}
+                    </Text>
+                </View>
+                <View style={styles.postNumber}>
+                    <Text>
+                        {members}
                     </Text>
                 </View>
                 <View style={styles.postContent}>
                     <Text>
-                        {title}
+                        {address}
                     </Text>
                     <Text style={styles.postBody}>
-                        {body}
+                        {rate}
                     </Text>
                 </View>
             </View>
@@ -46,7 +51,7 @@ export default class CommunityScreen extends React.Component {
     };
 
     render() {
-        const {posts, loading, error} = this.state;
+        const {community, loading, error} = this.state;
 
         if (loading) {
             return (
@@ -68,7 +73,7 @@ export default class CommunityScreen extends React.Component {
 
         return (
             <ScrollView style={styles.container}>
-                {posts.map(this.renderPost)}
+                {this.renderCommunity(community)}
             </ScrollView>
         )
     }
