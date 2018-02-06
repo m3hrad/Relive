@@ -1,6 +1,5 @@
 import React from 'react'
-import { View, Text, ActivityIndicator, ScrollView, StyleSheet } from 'react-native'
-
+import { View, Text, ActivityIndicator, ScrollView, StyleSheet, SafeAreaView } from 'react-native'
 
 
 export default class CommunityScreen extends React.Component {
@@ -72,9 +71,9 @@ export default class CommunityScreen extends React.Component {
         }
 
         return (
-            <ScrollView style={styles.container}>
+            <SafeAreaView>
                 {this.renderCommunity(community)}
-            </ScrollView>
+            </SafeAreaView>
         )
     }
 }
