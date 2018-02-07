@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, FlatList, Dimensions,
+import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, FlatList, Dimensions, TouchableOpacity
 } from 'react-native'
 
 const { width, height } = Dimensions.get('window');
@@ -12,9 +12,17 @@ export default class CommunityScreen extends React.Component {
     state = {
         loading: true,
         error: false,
-        community: {}
+        community: {},
+        count: 0
     };
 
+    renderHeader = (image_url) => {
+        return <Image
+            resizeMode="cover"
+            source={{uri: image_url}}
+            style={styles.communityImage}
+        />;
+    };
     componentWillMount = async () => {
         try {
             const response = await fetch('https://relivee.herokuapp.com/communities/current');
@@ -27,19 +35,16 @@ export default class CommunityScreen extends React.Component {
     };
 
     _renderItem = ({item}) => (
-        <Image  style={{ height: 150,  width : equalWidth}} source={{uri: item.imageUrl}} />
+        <TouchableOpacity onPress={() => this._onPress(item.id)}>
+            <Image style={{ height: 150,  width : equalWidth}} source={{uri: item.imageUrl}} />
+        </TouchableOpacity>
     );
 
-
-    renderMembers =  ({id, name, communityRate, totalRate, interactionsWithUser, imageUrl}, i ) => {
-        return (
-                <Image
-                    key={i}
-                    resizeMode="contain"
-                    source={{uri: imageUrl}}
-                    style={styles.membersImage}
-                />
-        )
+    _onPress = (itemId) => {
+        alert(itemId);
+        this.setState({
+            count: this.state.count+1
+        })
     };
 
     _keyExtractor = (item, index) => item.id;
@@ -51,11 +56,6 @@ export default class CommunityScreen extends React.Component {
                 key={1}
                 style={styles.container}
             >
-                    <Image
-                        resizeMode="cover"
-                        source={{uri: img_url}}
-                        style={styles.communityImage}
-                    />
                 <Text style={styles.mainTitle}>
                 {name}
                 </Text>
@@ -66,6 +66,7 @@ export default class CommunityScreen extends React.Component {
                     horizontal={false}
                     numColumns={2}
                     style={styles.flatList}
+                    ListHeaderComponent={this.renderHeader(img_url)}
                 />
             </View>
         )
@@ -144,6 +145,7 @@ const styles = StyleSheet.create({
     },
     communityImage: {
         height: 200,
+        marginBottom: 10
     },
     mainTitle: {
         color: 'white',
@@ -152,9 +154,10 @@ const styles = StyleSheet.create({
         height: 40,
         width: '100%',
         position: 'absolute',
-        backgroundColor: 'rgba(0,0,0,0.4)'
+        backgroundColor: 'rgba(0,0,0,0.4)',
+        zIndex: 2
     },
     flatList: {
-        marginTop: 10
+        marginTop: 0
     }
 });
