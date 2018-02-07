@@ -5,18 +5,40 @@ import ProfileScreen from './components/ProfileScreen';
 import CommunityScreen from './components/CommunityScreen';
 import CommunitiesScreen from './components/CommunitiesScreen';
 import CommunityQuestionScreen from './components/CommunityQuestionScreen';
+import QuestionScreen from './components/QuestionScreen';
 
 
 
 const CommunityStack = StackNavigator({
     CommunityQuestion: { screen: CommunityQuestionScreen },
     Community: { screen: CommunityScreen },
+    Question: { screen: QuestionScreen },
 });
+
+
+const CommunityRootStack = StackNavigator(
+    {
+        Main: {
+            screen: CommunityStack,
+        },
+        MyModal: {
+            screen: QuestionScreen,
+            navigationOptions: ({ navigation }) => ({
+                    title: 'Modal',
+                    tabBarVisible: false,
+                    swipeEnabled: false,
+                }
+            )}
+        },
+    {
+        headerMode: 'none',
+    }
+);
 
 export default TabNavigator(
     {
         Profile: { screen: ProfileScreen },
-        Community: { screen: CommunityStack },
+        Community: { screen: CommunityRootStack },
         Communities: { screen: CommunitiesScreen },
     },
     {
@@ -42,7 +64,7 @@ export default TabNavigator(
         tabBarOptions: {
             activeTintColor: 'tomato',
             inactiveTintColor: 'gray',
-            showLabel: false
+            showLabel: false,
         },
         animationEnabled: true,
         swipeEnabled: true,

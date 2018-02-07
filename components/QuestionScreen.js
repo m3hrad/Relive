@@ -7,7 +7,7 @@ const { width, height } = Dimensions.get('window');
 const equalWidth =  (width / 2 );
 
 
-export default class CommunityScreen extends React.Component {
+export default class QuestionScreen extends React.Component {
 
     state = {
         loading: true,
@@ -41,9 +41,7 @@ export default class CommunityScreen extends React.Component {
     );
 
     _onPress = (itemId) => {
-        // alert(itemId);
-        this.props.navigation.navigate('MyModal')
-
+        alert(itemId);
     };
 
     _keyExtractor = (item, index) => item.id;
