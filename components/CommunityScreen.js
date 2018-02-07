@@ -42,8 +42,7 @@ export default class CommunityScreen extends React.Component {
 
     _onPress = (itemId) => {
         // alert(itemId);
-        this.props.navigation.navigate('MyModal')
-
+        this.props.navigation.navigate('Question')
     };
 
     _keyExtractor = (item, index) => item.id;
@@ -86,7 +85,7 @@ export default class CommunityScreen extends React.Component {
             return (
                 <View style={styles.center}>
                     <Text>
-                        Failed to load posts!
+                        Failed to load the community!
                     </Text>
                 </View>
             )

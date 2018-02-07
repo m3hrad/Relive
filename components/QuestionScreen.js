@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, FlatList, Dimensions, TouchableOpacity
+import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, TextInput, Dimensions
 } from 'react-native'
 
 const { width, height } = Dimensions.get('window');
@@ -12,65 +12,55 @@ export default class QuestionScreen extends React.Component {
     state = {
         loading: true,
         error: false,
-        community: {},
-        count: 0
+        question: {},
+        count: 0,
+        text: ''
     };
 
-    renderHeader = (image_url) => {
-        return <Image
-            resizeMode="cover"
-            source={{uri: image_url}}
-            style={styles.communityImage}
-        />;
-    };
     componentWillMount = async () => {
         try {
-            const response = await fetch('https://relivee.herokuapp.com/communities/current');
-            const community = await response.json();
+            const response = await fetch('https://relivee.herokuapp.com/user/1/question', {
+                method: 'GET'
+            });
 
-            this.setState({loading: false, community: community})
+            const question = await response.json();
+
+            this.setState({loading: false, question: question})
+        } catch (e) {
+            this.setState({loading: false, error: true})
+        }
+    };
+    //
+    // _onPress = (itemId) => {
+    //     alert(itemId);
+    // };
+    //
+    _submitText= async (question,text) =>{
+        this.setState({loading: true});
+
+        try {
+            await fetch('https://relivee.herokuapp.com/user/1/question', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    answer: text,
+                    questionId: question.id,
+                    askedId: question.askedId,
+                    askerId: question.askerId
+                })
+            });
+            this.setState({loading: false});
+
         } catch (e) {
             this.setState({loading: false, error: true})
         }
     };
 
-    _renderItem = ({item}) => (
-        <TouchableOpacity onPress={() => this._onPress(item.id)}>
-            <Image style={{ height: 150,  width : equalWidth}} source={{uri: item.imageUrl}} />
-        </TouchableOpacity>
-    );
-
-    _onPress = (itemId) => {
-        alert(itemId);
-    };
-
-    _keyExtractor = (item, index) => item.id;
-
-    renderCommunity = ({id, name, address, members, rate, img_url}) => {
-        return (
-
-            <View
-                key={1}
-                style={styles.container}
-            >
-                <Text style={styles.mainTitle}>
-                {name}
-                </Text>
-                <FlatList
-                    data={members}
-                    keyExtractor={this._keyExtractor}     //has to be unique
-                    renderItem={this._renderItem} //method to render the data in the way you want using styling u need
-                    horizontal={false}
-                    numColumns={2}
-                    style={styles.flatList}
-                    ListHeaderComponent={this.renderHeader(img_url)}
-                />
-            </View>
-        )
-    };
-
     render() {
-        const {community, loading, error} = this.state;
+        const {question, loading, error} = this.state;
 
         if (loading) {
             return (
@@ -84,7 +74,7 @@ export default class QuestionScreen extends React.Component {
             return (
                 <View style={styles.center}>
                     <Text>
-                        Failed to load posts!
+                        Failed to load the question!
                     </Text>
                 </View>
             )
@@ -92,7 +82,22 @@ export default class QuestionScreen extends React.Component {
 
         return (
             <SafeAreaView style={{flex : 1}}>
-                {this.renderCommunity(community)}
+                <Image
+                    resizeMode="cover"
+                    source={{uri: question.userImageUrl}}
+                    style={styles.communityImage}
+                />
+                <Text style={styles.mainTitle}>
+                    {question.text}
+                </Text>
+                <TextInput
+                    style={styles.textInput}
+                    placeholder="Type your answer here"
+                    onChangeText={(text) => this.setState({text})}
+                    returnKeyType="send"
+                    onSubmitEditing={(event) => this._submitText(question, event.nativeEvent.text)}
+                />
+
             </SafeAreaView>
         )
     }
@@ -145,16 +150,20 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     mainTitle: {
-        color: 'white',
         fontSize: 30,
         paddingLeft: 10,
-        height: 40,
-        width: '100%',
-        position: 'absolute',
-        backgroundColor: 'rgba(0,0,0,0.4)',
-        zIndex: 2
+        paddingRight: 10,
+        textAlign: 'center',
     },
     flatList: {
         marginTop: 0
+    },
+    textInput: {
+        backgroundColor: 'white',
+        fontSize: 20,
+        marginLeft: 10,
+        marginRight: 10,
+        marginTop: 20,
+        padding: 5
     }
 });
