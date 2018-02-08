@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, Switch, ScrollView, Button
+import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, Switch, ScrollView, Button, FlatList
 } from 'react-native'
 
 
@@ -11,7 +11,11 @@ export default class ProfileEditScreen extends React.Component {
         data: {},
         text: '',
         rate: 3,
-        visibility: false
+        visibility: false,
+        languages: [],
+        allLanguages: [{'id': 2, 'name':'Finnish'},{'id': 3, 'name':'Swedish'},{'id': 4, 'name':'Finnish'},
+            {'id': 5, 'name':'Swedish'},{'id': 6, 'name':'Finnish'},{'id': 7, 'name':'Swedish'},
+            {'id': 8, 'name':'Finnish'},{'id': 9, 'name':'Swedish'},{'id': 10, 'name':'Finnish'},{'id': 11, 'name':'Swedish'}]
     };
 
     componentWillMount = async () => {
@@ -22,14 +26,13 @@ export default class ProfileEditScreen extends React.Component {
 
             const data = await response.json();
 
-            this.setState({loading: false, data: data, toggled: data.visible})
+            this.setState({loading: false, data: data, toggled: data.visible, languages: data.languages})
         } catch (e) {
             this.setState({loading: false, error: true})
         }
     };
 
     _setVisibility = async (visibility) =>{
-
         try {
             await fetch('https://relivee.herokuapp.com/user/0', {
                 method: 'PUT',
@@ -48,8 +51,88 @@ export default class ProfileEditScreen extends React.Component {
         }
     };
 
+    _removeLanguage = async (language) => {
+        let languages = this.state.languages;
+        for (let i in languages){
+            if (languages[i].id === language.id){
+                languages.splice(i,1);
+            }
+        }
+
+        let allLanguages = this.state.allLanguages;
+        allLanguages.push(language);
+
+        try {
+            await fetch('https://relivee.herokuapp.com/user/0', {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    languages: languages
+                })
+            });
+            this.setState({loading: false, languages: languages, allLanguages: allLanguages});
+
+        } catch (e) {
+            this.setState({loading: false, error: true})
+        }
+    };
+
+    _addLanguage = async (language) => {
+        let languages = this.state.languages;
+        languages.push(language);
+
+        let allLanguages = this.state.allLanguages;
+        for (let i in allLanguages){
+            if (allLanguages[i].id === language.id){
+                allLanguages.splice(i,1);
+            }
+        }
+
+        try {
+            await fetch('https://relivee.herokuapp.com/user/0', {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    languages: languages
+                })
+            });
+            this.setState({loading: false, languages: languages, allLanguages: allLanguages});
+
+        } catch (e) {
+            this.setState({loading: false, error: true})
+        }
+    };
+
+    _renderLanguage = (language) => {
+        return <Button
+            key={language.id}
+            title={language.name}
+            onPress={() => this._removeLanguage(language)}
+            style={styles.button}
+        />
+    };
+
+    _renderItem = ({item}) => (
+        <Text style={{fontSize: 15}} onPress={() => this._addLanguage(item)}>
+            {item.name}
+        </Text>
+    );
+
+    _onPress = (itemId) => {
+        // alert(itemId);
+        this.props.navigation.navigate('Question')
+    };
+
+    _keyExtractor = (item) => item.id;
+
     render() {
-        const {data, loading, error} = this.state;
+        const {languages, allLanguages, data, loading, error} = this.state;
         const visibility_value = this.state.visibility ? 'Active' : 'Passive';
 
         if (loading) {
@@ -98,17 +181,26 @@ export default class ProfileEditScreen extends React.Component {
                     <View style={styles.buttonContainer}>
                         <Text style={{flex:0.5}}>
                         </Text>
-                        <Button
-                            title="Edit Profile"
-                            onPress={() => this.props.navigation.navigate('ProfileEdit')}
-                            style={styles.button}
-                        />
-                        <Text style={styles.button}/>
-                        <Button
-                            title="Settings"
-                            onPress={() => this.props.navigation.navigate('Settings')}
-                            style={styles.button}
-                        />
+                        <Text style={{flex:1}}>
+                            Speaking Languages
+                        </Text>
+                        <Text style={{flex:0.5}}>
+                        </Text>
+                        <View style={{flex:1, flexDirection: 'column'}}>
+                            <View style={{flex:0.1, flexDirection: 'column'}}>
+                            {languages.map(item => this._renderLanguage(item))}
+                            </View>
+                            <View style={styles.flatListContainer}>
+                                <FlatList
+                                    data={allLanguages}
+                                    extraData={allLanguages}
+                                    keyExtractor={this._keyExtractor}     //has to be unique
+                                    renderItem={this._renderItem} //method to render the data in the way you want using styling u need
+                                    horizontal={false}
+                                    style={styles.flatList}
+                                />
+                            </View>
+                        </View>
                         <Text style={{flex:0.5}}>
                         </Text>
                     </View>
@@ -121,6 +213,9 @@ export default class ProfileEditScreen extends React.Component {
 
 
 const styles = StyleSheet.create({
+    flatListContainer: {
+        height: 50,
+    },
     empty: {
         flex: 2
     },

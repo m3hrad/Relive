@@ -29,7 +29,6 @@ export default class ProfileScreen extends React.Component {
     };
 
     _setVisibility = async (visibility) =>{
-
         try {
             await fetch('https://relivee.herokuapp.com/user/0', {
                 method: 'PUT',

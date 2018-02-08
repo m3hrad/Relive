@@ -38,7 +38,7 @@ export default TabNavigator(
             tabBarIcon: ({ focused, tintColor }) => {
                 const { routeName } = navigation.state;
                 let iconName;
-                if (routeName === 'Profile') {
+                if (routeName === 'ProfileStack') {
                     iconName = `ios-information-circle${focused ? '' : '-outline'}`;
                 } else if (routeName === 'CommunityStack') {
                     iconName = `ios-options${focused ? '' : '-outline'}`;
