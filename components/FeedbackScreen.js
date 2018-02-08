@@ -84,7 +84,7 @@ export default class FeedbackScreen extends React.Component {
                         <Image
                             resizeMode="cover"
                             source={{uri: feedback.askedImageUrl}}
-                            style={styles.communityImage}
+                            style={styles.profileImage}
                         />
                     </View>
                     <Text style={styles.mainTitle}>
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    communityImage: {
+    profileImage: {
         height: 200,
         width: 200,
         marginTop: 60,
