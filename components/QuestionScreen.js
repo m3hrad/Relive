@@ -1,11 +1,5 @@
 import React from 'react'
-import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, TextInput, Dimensions
-} from 'react-native'
-
-const { width, height } = Dimensions.get('window');
-
-const equalWidth =  (width / 2 );
-
+import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, TextInput} from 'react-native'
 
 export default class QuestionScreen extends React.Component {
 
@@ -30,11 +24,7 @@ export default class QuestionScreen extends React.Component {
             this.setState({loading: false, error: true})
         }
     };
-    //
-    // _onPress = (itemId) => {
-    //     alert(itemId);
-    // };
-    //
+
     _submitText= async (question,text) =>{
         this.setState({loading: true});
 
@@ -53,6 +43,11 @@ export default class QuestionScreen extends React.Component {
                 })
             });
             this.setState({loading: false});
+            this.props.navigation.navigate('Feedback', {
+                askedId: question.askedId,
+                askerId: question.askerId,
+                questionId: question.id
+            });
 
         } catch (e) {
             this.setState({loading: false, error: true})
@@ -111,31 +106,6 @@ const styles = StyleSheet.create({
     button: {
         flex: 1
     },
-    container: {
-        flexDirection: 'column',
-        flex: 1
-    },
-    membersContainer: {
-        flexDirection: 'row',
-        flex: 1,
-        marginLeft: '2.5%',
-        marginRight: '2.5%',
-        backgroundColor: 'yellow',
-    },
-    membersImage: {
-        width: '5%',
-        height: 150,
-        margin: '2.5%',
-        top: 0,
-    },
-    buttonContainer: {
-        flexDirection: 'row',
-        flex: 1,
-        position: 'absolute',
-        bottom: 0,
-        justifyContent: 'center',
-        width: '100%'
-    },
     center: {
         flex: 1,
         justifyContent: 'center',
@@ -154,9 +124,6 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         paddingRight: 10,
         textAlign: 'center',
-    },
-    flatList: {
-        marginTop: 0
     },
     textInput: {
         backgroundColor: 'white',
