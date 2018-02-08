@@ -3,7 +3,7 @@ import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, Switch,
 } from 'react-native'
 
 
-export default class FeedbackScreen extends React.Component {
+export default class ProfileEditScreen extends React.Component {
 
     state = {
         loading: true,

@@ -9,6 +9,7 @@ import QuestionScreen from './components/QuestionScreen';
 import FeedbackScreen from './components/FeedbackScreen';
 import ReportUserScreen from './components/ReportUserScreen';
 import CommunitySearchScreen from './components/CommunitySearchScreen';
+import ProfileEditScreen from './components/ProfileEditScreen';
 
 
 
@@ -21,9 +22,14 @@ const CommunityStack = StackNavigator({
     CommunitySearch: { screen: CommunitySearchScreen },
 });
 
+const ProfileStack = StackNavigator({
+    Profile: { screen: ProfileScreen},
+    ProfileEdit: { screen: ProfileEditScreen }
+});
+
 export default TabNavigator(
     {
-        Profile: { screen: ProfileScreen },
+        ProfileStack: { screen: ProfileStack },
         CommunityStack: { screen: CommunityStack },
         Communities: { screen: CommunitiesScreen },
     },
