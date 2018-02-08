@@ -67,7 +67,7 @@ export default class CommunityQuestionScreen extends React.Component {
                 <View style={styles.buttonContainer}>
                     <Button
                         title="NO"
-                        onPress={() => this.props.navigation.navigate('Search')}
+                        onPress={() => this.props.navigation.navigate('CommunitySearch')}
                         style={styles.button}
                     />
                     <View style={styles.emptyView}>

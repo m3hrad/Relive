@@ -8,6 +8,7 @@ import CommunityQuestionScreen from './components/CommunityQuestionScreen';
 import QuestionScreen from './components/QuestionScreen';
 import FeedbackScreen from './components/FeedbackScreen';
 import ReportUserScreen from './components/ReportUserScreen';
+import CommunitySearchScreen from './components/CommunitySearchScreen';
 
 
 
@@ -16,13 +17,14 @@ const CommunityStack = StackNavigator({
     Community: { screen: CommunityScreen },
     Question: { screen: QuestionScreen },
     Feedback: { screen: FeedbackScreen },
-    // ReportUser: { screen: ReportUserScreen },
+    ReportUser: { screen: ReportUserScreen },
+    CommunitySearch: { screen: CommunitySearchScreen },
 });
 
 export default TabNavigator(
     {
         Profile: { screen: ProfileScreen },
-        Community: { screen: CommunityStack },
+        CommunityStack: { screen: CommunityStack },
         Communities: { screen: CommunitiesScreen },
     },
     {
@@ -32,7 +34,7 @@ export default TabNavigator(
                 let iconName;
                 if (routeName === 'Profile') {
                     iconName = `ios-information-circle${focused ? '' : '-outline'}`;
-                } else if (routeName === 'Community') {
+                } else if (routeName === 'CommunityStack') {
                     iconName = `ios-options${focused ? '' : '-outline'}`;
                 } else if (routeName === 'Communities') {
                     iconName = `ios-options${focused ? '' : '-outline'}`;
