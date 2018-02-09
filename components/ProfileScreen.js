@@ -24,7 +24,7 @@ export default class ProfileScreen extends React.Component {
 
             const data = await response.json();
 
-            this.setState({loading: false, data: data, toggled: data.visible})
+            this.setState({loading: false, data: data, visibility: data.visible})
         } catch (e) {
             this.setState({loading: false, error: true})
         }

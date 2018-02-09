@@ -10,6 +10,7 @@ import FeedbackScreen from './components/FeedbackScreen';
 import ReportUserScreen from './components/ReportUserScreen';
 import CommunitySearchScreen from './components/CommunitySearchScreen';
 import ProfileEditScreen from './components/ProfileEditScreen';
+import SettingsScreen from './components/SettingsScreen';
 
 
 
@@ -23,8 +24,9 @@ const CommunityStack = StackNavigator({
 });
 
 const ProfileStack = StackNavigator({
-    Profile: { screen: ProfileScreen},
-    ProfileEdit: { screen: ProfileEditScreen }
+    Profile: { screen: SettingsScreen},
+    ProfileEdit: { screen: ProfileEditScreen },
+    Settings: { screen: SettingsScreen }
 });
 
 export default TabNavigator(

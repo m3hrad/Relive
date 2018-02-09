@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, Switch, ScrollView, TouchableOpacity, FlatList
 } from 'react-native'
+import commonStyles from '../styles/CommonStyles'
 import Environment from '../environment'
 
 
@@ -27,30 +28,12 @@ export default class ProfileEditScreen extends React.Component {
 
             const data = await response.json();
 
-            this.setState({loading: false, data: data, toggled: data.visible, languages: data.languages})
+            this.setState({loading: false, data: data, languages: data.languages})
         } catch (e) {
             this.setState({loading: false, error: true})
         }
     };
 
-    _setVisibility = async (visibility) =>{
-        try {
-            await fetch(Environment.BASE_URL+'user/0', {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    visibility: !visibility
-                })
-            });
-            this.setState({loading: false, visibility: visibility});
-
-        } catch (e) {
-            this.setState({loading: false, error: true})
-        }
-    };
 
     _removeLanguage = async (language) => {
         let languages = this.state.languages;
@@ -124,20 +107,14 @@ export default class ProfileEditScreen extends React.Component {
         </Text>
     );
 
-    _onPress = (itemId) => {
-        // alert(itemId);
-        this.props.navigation.navigate('Question')
-    };
-
     _keyExtractor = (item) => item.id;
 
     render() {
         const {languages, allLanguages, data, loading, error} = this.state;
-        const visibility_value = this.state.visibility ? 'Active' : 'Passive';
 
         if (loading) {
             return (
-                <View style={styles.center}>
+                <View style={commonStyles.center}>
                     <ActivityIndicator animating={true} />
                 </View>
             )
@@ -145,7 +122,7 @@ export default class ProfileEditScreen extends React.Component {
 
         if (error) {
             return (
-                <View style={styles.center}>
+                <View style={commonStyles.center}>
                     <Text>
                         Failed to load the data!
                     </Text>
@@ -154,31 +131,17 @@ export default class ProfileEditScreen extends React.Component {
         }
 
         return (
-            <SafeAreaView style={{flex : 1}}>
-                <ScrollView contentContainerStyle={styles.scrl}>
-                    <Text style={{flex:0.3}}/>
-                    <View style={{flex:0.2, flexDirection:'row'}}>
-                        <Text style={{flex:2}}>
-                        </Text>
-                        <Text style={{flex:1, width: 10, fontSize: 20, marginTop: 7}}>
-                            {visibility_value}
-                        </Text>
-                        <Switch
-                            onValueChange={ (value) => this._setVisibility(value)}
-                            value={ this.state.visibility }
-                        />
-                        <Text style={{flex:0.3}}>
-                        </Text>
-                    </View>
-                    <View style={styles.center}>
+            <SafeAreaView style={commonStyles.safeArea}>
+                <ScrollView contentContainerStyle={commonStyles.mainScroll}>
+                    <View style={commonStyles.center}>
                         <Image
                             resizeMode="cover"
                             source={{uri: data.imageUrl}}
-                            style={styles.profileImage}
+                            style={commonStyles.profileImage}
                         />
                     </View>
 
-                    <View style={styles.buttonContainer}>
+                    <View style={commonStyles.buttonContainer}>
                         <Text style={{flex:0.5}}>
                         </Text>
                         <Text style={{flex:1}}>
@@ -218,35 +181,5 @@ const styles = StyleSheet.create({
     },
     empty: {
         flex: 2
-    },
-    scrl: {
-        flexGrow: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        backgroundColor: 'white'
-    },
-    center: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1
-    },
-    button: {
-        flex: 1,
-    },
-    buttonContainer: {
-        flexDirection: 'row',
-        flex: 2,
-        bottom: 0,
-        justifyContent: 'center',
-        width: '100%',
-    },
-    profileImage: {
-        height: 200,
-        width: 200,
-        marginTop: 60,
-        marginBottom: 10,
-        borderRadius:100,
-        justifyContent: 'center',
-        alignItems: 'center',
     },
 });
