@@ -1,7 +1,7 @@
 import React from 'react'
-import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, Switch, ScrollView, Button
+import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, Switch, ScrollView, Button, TouchableOpacity
 } from 'react-native'
-
+import commonStyles from '../styles/CommonStyles';
 
 export default class ProfileScreen extends React.Component {
 
@@ -53,7 +53,7 @@ export default class ProfileScreen extends React.Component {
 
         if (loading) {
             return (
-                <View style={styles.center}>
+                <View style={commonStyles.center}>
                     <ActivityIndicator animating={true} />
                 </View>
             )
@@ -61,7 +61,7 @@ export default class ProfileScreen extends React.Component {
 
         if (error) {
             return (
-                <View style={styles.center}>
+                <View style={commonStyles.center}>
                     <Text>
                         Failed to load the data!
                     </Text>
@@ -70,8 +70,8 @@ export default class ProfileScreen extends React.Component {
         }
 
         return (
-            <SafeAreaView style={{flex : 1}}>
-                <ScrollView contentContainerStyle={styles.scrl}>
+            <SafeAreaView style={commonStyles.safeArea}>
+                <ScrollView contentContainerStyle={commonStyles.mainScroll}>
                     <Text style={{flex:0.3}}/>
                     <View style={{flex:0.2, flexDirection:'row'}}>
                         <Text style={{flex:2}}>
@@ -86,31 +86,32 @@ export default class ProfileScreen extends React.Component {
                         <Text style={{flex:0.3}}>
                         </Text>
                     </View>
-                    <View style={styles.center}>
+                    <View style={commonStyles.center}>
                         <Image
                             resizeMode="cover"
                             source={{uri: data.imageUrl}}
-                            style={styles.profileImage}
+                            style={commonStyles.profileImage}
                         />
                     </View>
 
-                    <View style={styles.buttonContainer}>
+                    <View style={commonStyles.buttonContainer}>
                         <Text style={{flex:0.5}}>
                         </Text>
-                        <Button
-                            title="Edit Profile"
-                            onPress={() => this.props.navigation.navigate('ProfileEdit')}
-                            style={styles.button}
-                        />
-                        <Text style={styles.button}/>
-                        <Button
-                            title="Settings"
-                            onPress={() => this.props.navigation.navigate('Settings')}
-                            style={styles.button}
-                        />
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('ProfileEdit')}>
+                            <Text style={commonStyles.button}>
+                                Edit Profile
+                            </Text>
+                        </TouchableOpacity>
+                        <Text style={commonStyles.button}/>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('Settings')}>
+                            <Text style={commonStyles.button}>
+                                Settings
+                            </Text>
+                        </TouchableOpacity>
                         <Text style={{flex:0.5}}>
                         </Text>
                     </View>
+                    <View style={{flex:2}}/>
                 </ScrollView>
 
             </SafeAreaView>
@@ -122,35 +123,5 @@ export default class ProfileScreen extends React.Component {
 const styles = StyleSheet.create({
     empty: {
         flex: 2
-    },
-    scrl: {
-        flexGrow: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        backgroundColor: 'white'
-    },
-    center: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1
-    },
-    button: {
-        flex: 1,
-    },
-    buttonContainer: {
-        flexDirection: 'row',
-        flex: 2,
-        bottom: 0,
-        justifyContent: 'center',
-        width: '100%',
-    },
-    profileImage: {
-        height: 200,
-        width: 200,
-        marginTop: 60,
-        marginBottom: 10,
-        borderRadius:100,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
+    }
 });

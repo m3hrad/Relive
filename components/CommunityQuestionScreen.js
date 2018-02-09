@@ -1,5 +1,6 @@
 import React from 'react'
-import { View, Text, ActivityIndicator, ScrollView, StyleSheet, Image, SafeAreaView, Button } from 'react-native'
+import { View, Text, ActivityIndicator, TouchableOpacity, StyleSheet, Image, SafeAreaView, ScrollView } from 'react-native'
+import commonStyles from '../styles/CommonStyles';
 
 
 export default class CommunityQuestionScreen extends React.Component {
@@ -31,9 +32,9 @@ export default class CommunityQuestionScreen extends React.Component {
                     <Image
                         resizeMode="cover"
                         source={{uri: img_url}}
-                        style={styles.communityImage}
+                        style={commonStyles.communityImage}
                     />
-                <Text style={styles.mainQuestion}>
+                <Text style={commonStyles.mainText}>
                 Are you in {name} ?
                 </Text>
             </View>
@@ -45,7 +46,7 @@ export default class CommunityQuestionScreen extends React.Component {
 
         if (loading) {
             return (
-                <View style={styles.center}>
+                <View style={commonStyles.center}>
                     <ActivityIndicator animating={true} />
                 </View>
             )
@@ -53,7 +54,7 @@ export default class CommunityQuestionScreen extends React.Component {
 
         if (error) {
             return (
-                <View style={styles.center}>
+                <View style={commonStyles.center}>
                     <Text>
                         Failed to load posts!
                     </Text>
@@ -62,22 +63,25 @@ export default class CommunityQuestionScreen extends React.Component {
         }
 
         return (
-            <SafeAreaView style={{flex : 1}}>
+            <SafeAreaView style={commonStyles.safeArea}>
+                <ScrollView contentContainerStyle={commonStyles.mainScroll}>
+
                 {this.renderCommunity(community)}
-                <View style={styles.buttonContainer}>
-                    <Button
-                        title="NO"
-                        onPress={() => this.props.navigation.navigate('CommunitySearch')}
-                        style={styles.button}
-                    />
+                <View style={commonStyles.buttonContainer}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('CommunitySearch')}>
+                        <Text style={commonStyles.button}>
+                            NO
+                        </Text>
+                    </TouchableOpacity>
                     <View style={styles.emptyView}>
                     </View>
-                    <Button
-                        style={styles.button}
-                        title="YES"
-                        onPress={() => this.props.navigation.navigate('Community')}
-                    />
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Community')}>
+                        <Text style={commonStyles.button}>
+                            YES
+                        </Text>
+                    </TouchableOpacity>
                 </View>
+                </ScrollView>
             </SafeAreaView>
         )
     }
@@ -88,41 +92,8 @@ const styles = StyleSheet.create({
     emptyView: {
         flex: 1
     },
-    button: {
-        flex: 1
-    },
     container: {
         flexDirection: 'column',
         flex: 1
     },
-    buttonContainer: {
-        flexDirection: 'row',
-        flex: 1,
-        position: 'absolute',
-        bottom: 10,
-        justifyContent: 'center',
-        // width: '100%',
-        marginRight: 20,
-        marginLeft: 20,
-
-    },
-    center: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    text: {
-        padding: 15,
-        backgroundColor: 'skyblue',
-    },
-    communityImage: {
-        height: 300,
-    },
-    mainQuestion: {
-        flex:1,
-        fontSize: 30,
-        marginTop: 10,
-        textAlign:'center',
-        height:100
-    }
 });

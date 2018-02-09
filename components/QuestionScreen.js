@@ -1,5 +1,6 @@
 import React from 'react'
-import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, TextInput} from 'react-native'
+import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, TextInput,KeyboardAvoidingView, ScrollView} from 'react-native'
+import commonStyles from "../styles/CommonStyles";
 
 export default class QuestionScreen extends React.Component {
 
@@ -59,7 +60,7 @@ export default class QuestionScreen extends React.Component {
 
         if (loading) {
             return (
-                <View style={styles.center}>
+                <View style={commonStyles.center}>
                     <ActivityIndicator animating={true} />
                 </View>
             )
@@ -67,7 +68,7 @@ export default class QuestionScreen extends React.Component {
 
         if (error) {
             return (
-                <View style={styles.center}>
+                <View style={commonStyles.center}>
                     <Text>
                         Failed to load the question!
                     </Text>
@@ -76,61 +77,39 @@ export default class QuestionScreen extends React.Component {
         }
 
         return (
-            <SafeAreaView style={{flex : 1}}>
-                <Image
-                    resizeMode="cover"
-                    source={{uri: question.userImageUrl}}
-                    style={styles.communityImage}
-                />
-                <Text style={styles.mainTitle}>
-                    {question.text}
-                </Text>
-                <TextInput
-                    style={styles.textInput}
-                    placeholder="Type your answer here"
-                    onChangeText={(text) => this.setState({text})}
-                    returnKeyType="send"
-                    onSubmitEditing={(event) => this._submitText(question, event.nativeEvent.text)}
-                />
-
-            </SafeAreaView>
+            <KeyboardAvoidingView
+                behavior="padding"
+                style={{flex:1}}
+            >
+                <SafeAreaView style={commonStyles.safeArea}>
+                    <ScrollView contentContainerStyle={commonStyles.mainScroll}>
+                        <View style={commonStyles.center}>
+                            <Image
+                                resizeMode="cover"
+                                source={{uri: question.userImageUrl}}
+                                style={commonStyles.profileImage}
+                            />
+                        </View>
+                        <Text style={commonStyles.mainText}>
+                            {question.text}
+                        </Text>
+                        <TextInput
+                            style={commonStyles.textInput}
+                            placeholder="Type your answer here"
+                            onChangeText={(text) => this.setState({text})}
+                            returnKeyType="send"
+                            onSubmitEditing={(event) => this._submitText(question, event.nativeEvent.text)}
+                        />
+                        <View style={{flex:10}}/>
+                    </ScrollView>
+                </SafeAreaView>
+            </KeyboardAvoidingView>
         )
     }
 }
-
 
 const styles = StyleSheet.create({
     emptyView: {
         flex: 1
     },
-    button: {
-        flex: 1
-    },
-    center: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    text: {
-        padding: 15,
-        backgroundColor: 'skyblue',
-    },
-    communityImage: {
-        height: 200,
-        marginBottom: 10
-    },
-    mainTitle: {
-        fontSize: 30,
-        paddingLeft: 10,
-        paddingRight: 10,
-        textAlign: 'center',
-    },
-    textInput: {
-        backgroundColor: 'white',
-        fontSize: 20,
-        marginLeft: 10,
-        marginRight: 10,
-        marginTop: 20,
-        padding: 5
-    }
 });

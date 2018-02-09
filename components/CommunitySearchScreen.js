@@ -1,5 +1,6 @@
 import React from 'react'
-import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, TextInput, FlatList, TouchableOpacity} from 'react-native'
+import { View, Text, ActivityIndicator, ScrollView, Image, SafeAreaView, TextInput, FlatList, TouchableOpacity} from 'react-native'
+import commonStyles from '../styles/CommonStyles';
 
 export default class QuestionScreen extends React.Component {
 
@@ -35,8 +36,8 @@ export default class QuestionScreen extends React.Component {
 
     _renderItem = ({item}) => (
         <TouchableOpacity onPress={() => this._onPress(item.id)} style={{flex: 1, flexDirection: 'row' , marginBottom:10}}>
-            <Image style={{ height: 80,  width : 80}} source={{uri: item.img_url}} />
-            <Text style={{fontSize : 20, marginTop: 30, marginLeft: 10}}>
+            <Image style={commonStyles.listImage} source={{uri: item.img_url}} />
+            <Text style={commonStyles.listText}>
                 {item.name}
             </Text>
         </TouchableOpacity>
@@ -47,7 +48,7 @@ export default class QuestionScreen extends React.Component {
 
         if (loading) {
             return (
-                <View style={styles.center}>
+                <View style={commonStyles.center}>
                     <ActivityIndicator animating={true} />
                 </View>
             )
@@ -55,7 +56,7 @@ export default class QuestionScreen extends React.Component {
 
         if (error) {
             return (
-                <View style={styles.center}>
+                <View style={commonStyles.center}>
                     <Text>
                         Failed to load the Communities!
                     </Text>
@@ -64,9 +65,10 @@ export default class QuestionScreen extends React.Component {
         }
 
         return (
-            <SafeAreaView style={{flex : 1}}>
+            <SafeAreaView style={commonStyles.safeArea}>
+                <ScrollView contentContainerStyle={commonStyles.mainScroll}>
                 <TextInput
-                    style={styles.textInput}
+                    style={commonStyles.textInput}
                     placeholder="Search for community"
                     value={this.state.text}
                     onChangeText={(text) => this.setState({text})}
@@ -77,24 +79,12 @@ export default class QuestionScreen extends React.Component {
                 </Text>
                 <FlatList
                     data={communities}
-                    keyExtractor={this._keyExtractor}     //has to be unique
-                    renderItem={this._renderItem} //method to render the data in the way you want using styling u need
+                    keyExtractor={this._keyExtractor}
+                    renderItem={this._renderItem}
                     horizontal={false}
-                    style={styles.flatList}
                 />
+                </ScrollView>
             </SafeAreaView>
         )
     }
 }
-
-
-const styles = StyleSheet.create({
-    textInput: {
-        backgroundColor: 'white',
-        fontSize: 20,
-        marginLeft: 10,
-        marginRight: 10,
-        marginTop: 20,
-        padding: 5
-    }
-});

@@ -1,9 +1,7 @@
 import React from 'react'
-import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, TextInput, Dimensions, ScrollView, Button
+import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, TextInput, ScrollView, TouchableOpacity
 } from 'react-native'
-import { AirbnbRating } from 'react-native-ratings';
-import CommunityQuestionScreen from "./CommunityQuestionScreen"; //5.3.0
-
+import commonStyles from "../styles/CommonStyles";
 
 export default class ReportUserScreen extends React.Component {
 
@@ -61,7 +59,7 @@ export default class ReportUserScreen extends React.Component {
 
         if (loading) {
             return (
-                <View style={styles.center}>
+                <View style={commonStyles.center}>
                     <ActivityIndicator animating={true} />
                 </View>
             )
@@ -69,7 +67,7 @@ export default class ReportUserScreen extends React.Component {
 
         if (error) {
             return (
-                <View style={styles.center}>
+                <View style={commonStyles.center}>
                     <Text>
                         Failed to load the data!
                     </Text>
@@ -78,18 +76,18 @@ export default class ReportUserScreen extends React.Component {
         }
 
         return (
-            <SafeAreaView style={{flex : 1}}>
-                <ScrollView contentContainerStyle={styles.scrl}>
-                    <View style={styles.center}>
+            <SafeAreaView style={commonStyles.safeArea}>
+                <ScrollView contentContainerStyle={commonStyles.mainScroll}>
+                    <View style={commonStyles.center}>
                         <Image
                             resizeMode="cover"
                             source={{uri: data.imageUrl}}
-                            style={styles.communityImage}
+                            style={commonStyles.profileImage}
                         />
                     </View>
 
                     <TextInput
-                        style={styles.textInput}
+                        style={commonStyles.textInput}
                         placeholder={"What's the reason of reporting "+ data.firstName +"?"}
                         onChangeText={(text) => this.setState({text})}
                         returnKeyType="send"
@@ -98,13 +96,13 @@ export default class ReportUserScreen extends React.Component {
                     />
                     <View
                         style={styles.empty}/>
-                    <View style={styles.buttonContainer}>
-                        <Text style={styles.button}/>
-                        <Button
-                            title="SEND"
-                            onPress={() => this._submitText(data)}
-                            style={styles.button}
-                        />
+                    <View style={commonStyles.buttonContainer}>
+                        <Text style={commonStyles.button}/>
+                        <TouchableOpacity onPress={() => this._submitText(data)}>
+                            <Text style={commonStyles.button}>
+                                SEND
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                 </ScrollView>
 
@@ -117,48 +115,5 @@ export default class ReportUserScreen extends React.Component {
 const styles = StyleSheet.create({
     empty: {
         flex: 8
-    },
-    scrl: {
-        flexGrow: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        backgroundColor: 'white'
-    },
-    center: {
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    communityImage: {
-        height: 200,
-        width: 200,
-        marginTop: 60,
-        marginBottom: 10,
-        borderRadius:100,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    button: {
-        flex: 1,
-    },
-    buttonContainer: {
-        flexDirection: 'row',
-        flex: 1,
-        bottom: 0,
-        justifyContent: 'center',
-        width: '100%',
-    },
-    textInput: {
-        backgroundColor: 'white',
-        fontSize: 20,
-        marginLeft: 10,
-        marginRight: 10,
-        marginTop: 20,
-        padding: 5,
-    },
-    mainTitle: {
-        fontSize: 30,
-        paddingLeft: 10,
-        paddingRight: 10,
-        textAlign: 'center',
     },
 });

@@ -1,7 +1,8 @@
 import React from 'react'
-import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, TextInput, Dimensions, ScrollView, Button
-} from 'react-native'
-import { AirbnbRating } from 'react-native-ratings'; //5.3.0
+import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, TextInput, TouchableOpacity, ScrollView,
+    KeyboardAvoidingView} from 'react-native'
+import { AirbnbRating } from 'react-native-ratings';
+import commonStyles from "../styles/CommonStyles";
 
 
 export default class FeedbackScreen extends React.Component {
@@ -61,7 +62,7 @@ export default class FeedbackScreen extends React.Component {
 
         if (loading) {
             return (
-                <View style={styles.center}>
+                <View style={commonStyles.center}>
                     <ActivityIndicator animating={true} />
                 </View>
             )
@@ -69,7 +70,7 @@ export default class FeedbackScreen extends React.Component {
 
         if (error) {
             return (
-                <View style={styles.center}>
+                <View style={commonStyles.center}>
                     <Text>
                         Failed to load the data!
                     </Text>
@@ -78,25 +79,30 @@ export default class FeedbackScreen extends React.Component {
         }
 
         return (
-            <SafeAreaView style={{flex : 1}}>
-                <ScrollView contentContainerStyle={styles.scrl}>
-                    <View style={styles.center}>
+            <KeyboardAvoidingView
+                behavior="padding"
+                style={{flex:1}}
+            >
+            <SafeAreaView style={commonStyles.safeArea}>
+                <ScrollView contentContainerStyle={commonStyles.mainScroll}>
+                    <View style={commonStyles.center}>
                         <Image
                             resizeMode="cover"
                             source={{uri: feedback.askedImageUrl}}
-                            style={styles.profileImage}
+                            style={commonStyles.profileImage}
                         />
                     </View>
-                    <Text style={styles.mainTitle}>
+                    <Text style={commonStyles.mainText}>
                         How do you rate your interaction with {feedback.askedName} in {feedback.communityName} about the {feedback.questionCategory}?
                     </Text>
                     <AirbnbRating
-                        size={30}
+                        size={20}
                         onFinishRating={this.ratingCompleted}
+                        style={{flex:3}}
                     />
 
                     <TextInput
-                        style={styles.textInput}
+                        style={commonStyles.textInput}
                         placeholder="It would be great if you tell us why."
                         onChangeText={(text) => this.setState({text})}
                         returnKeyType="send"
@@ -104,72 +110,33 @@ export default class FeedbackScreen extends React.Component {
                     />
                     <View
                         style={styles.rating}/>
-                    <View style={styles.buttonContainer}>
-                        <Button
-                            title="REPORT"
-                            onPress={() => this.props.navigation.navigate('ReportUser')}
-                            style={styles.button}
-                        />
-                        <Text style={styles.button}/>
-                        <Button
-                            title="SEND"
-                            onPress={() => this._submitText(feedback)}
-                            style={styles.button}
-                        />
+                    <View style={commonStyles.buttonContainer}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('ReportUser')}>
+                            <Text style={commonStyles.button}>
+                                REPORT
+                            </Text>
+                        </TouchableOpacity>
+                        <Text style={styles.empty}/>
+                        <TouchableOpacity onPress={() => this._submitText(feedback)}>
+                            <Text style={commonStyles.button}>
+                                SEND
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                 </ScrollView>
 
             </SafeAreaView>
+            </KeyboardAvoidingView>
         )
     }
 }
 
 
 const styles = StyleSheet.create({
+    empty: {
+        flex: 5
+    },
     rating: {
         flex: 2
-    },
-    scrl: {
-        flexGrow: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        backgroundColor: 'white'
-    },
-    center: {
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    profileImage: {
-        height: 200,
-        width: 200,
-        marginTop: 60,
-        marginBottom: 10,
-        borderRadius:100,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    button: {
-        flex: 1,
-    },
-    buttonContainer: {
-        flexDirection: 'row',
-        flex: 1,
-        bottom: 0,
-        justifyContent: 'center',
-        width: '100%',
-    },
-    textInput: {
-        backgroundColor: 'white',
-        fontSize: 20,
-        marginLeft: 10,
-        marginRight: 10,
-        marginTop: 20,
-        padding: 5,
-    },
-    mainTitle: {
-        fontSize: 30,
-        paddingLeft: 10,
-        paddingRight: 10,
-        textAlign: 'center',
     },
 });

@@ -1,11 +1,10 @@
 import React from 'react'
 import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, FlatList, Dimensions, TouchableOpacity
 } from 'react-native'
+import commonStyles from '../styles/CommonStyles';
 
 const { width, height } = Dimensions.get('window');
-
 const equalWidth =  (width / 2 );
-
 
 export default class CommunityScreen extends React.Component {
 
@@ -20,9 +19,10 @@ export default class CommunityScreen extends React.Component {
         return <Image
             resizeMode="cover"
             source={{uri: image_url}}
-            style={styles.communityImage}
+            style={commonStyles.communityImage}
         />;
     };
+
     componentWillMount = async () => {
         try {
             const response = await fetch('https://relivee.herokuapp.com/communities/current');
@@ -49,12 +49,11 @@ export default class CommunityScreen extends React.Component {
 
     renderCommunity = ({id, name, address, members, rate, img_url}) => {
         return (
-
             <View
                 key={1}
                 style={styles.container}
             >
-                <Text style={styles.mainTitle}>
+                <Text style={commonStyles.mainTitle}>
                 {name}
                 </Text>
                 <FlatList
@@ -75,7 +74,7 @@ export default class CommunityScreen extends React.Component {
 
         if (loading) {
             return (
-                <View style={styles.center}>
+                <View style={commonStyles.center}>
                     <ActivityIndicator animating={true} />
                 </View>
             )
@@ -83,7 +82,7 @@ export default class CommunityScreen extends React.Component {
 
         if (error) {
             return (
-                <View style={styles.center}>
+                <View style={commonStyles.center}>
                     <Text>
                         Failed to load the community!
                     </Text>
@@ -92,19 +91,15 @@ export default class CommunityScreen extends React.Component {
         }
 
         return (
-            <SafeAreaView style={{flex : 1}}>
+            <SafeAreaView style={commonStyles.safeArea}>
                 {this.renderCommunity(community)}
             </SafeAreaView>
         )
     }
 }
 
-
 const styles = StyleSheet.create({
     emptyView: {
-        flex: 1
-    },
-    button: {
         flex: 1
     },
     container: {
@@ -116,7 +111,6 @@ const styles = StyleSheet.create({
         flex: 1,
         marginLeft: '2.5%',
         marginRight: '2.5%',
-        backgroundColor: 'yellow',
     },
     membersImage: {
         width: '5%',
@@ -132,30 +126,4 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: '100%'
     },
-    center: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    text: {
-        padding: 15,
-        backgroundColor: 'skyblue',
-    },
-    communityImage: {
-        height: 200,
-        marginBottom: 10
-    },
-    mainTitle: {
-        color: 'white',
-        fontSize: 30,
-        paddingLeft: 10,
-        height: 40,
-        width: '100%',
-        position: 'absolute',
-        backgroundColor: 'rgba(0,0,0,0.4)',
-        zIndex: 2
-    },
-    flatList: {
-        marginTop: 0
-    }
 });

@@ -1,7 +1,6 @@
 import React from 'react'
-import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, Switch, ScrollView, Button, FlatList
+import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, Switch, ScrollView, TouchableOpacity, FlatList
 } from 'react-native'
-
 
 export default class ProfileEditScreen extends React.Component {
 
@@ -110,12 +109,11 @@ export default class ProfileEditScreen extends React.Component {
     };
 
     _renderLanguage = (language) => {
-        return <Button
-            key={language.id}
-            title={language.name}
-            onPress={() => this._removeLanguage(language)}
-            style={styles.button}
-        />
+        return <TouchableOpacity onPress={()=>this._removeLanguage(language)} key={language.id}>
+            <Text>
+                {language.name}
+            </Text>
+        </TouchableOpacity>
     };
 
     _renderItem = ({item}) => (
