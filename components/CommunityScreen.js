@@ -2,6 +2,7 @@ import React from 'react'
 import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, FlatList, Dimensions, TouchableOpacity
 } from 'react-native'
 import commonStyles from '../styles/CommonStyles';
+import Environment from "../environment";
 
 const { width, height } = Dimensions.get('window');
 const equalWidth =  (width / 2 );
@@ -25,7 +26,7 @@ export default class CommunityScreen extends React.Component {
 
     componentWillMount = async () => {
         try {
-            const response = await fetch('https://relivee.herokuapp.com/communities/current');
+            const response = await fetch(Environment.BASE_URL+'communities/current');
             const community = await response.json();
 
             this.setState({loading: false, community: community})

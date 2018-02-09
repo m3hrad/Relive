@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, TextInput,KeyboardAvoidingView, ScrollView} from 'react-native'
 import commonStyles from "../styles/CommonStyles";
+import Environment from '../environment'
 
 export default class QuestionScreen extends React.Component {
 
@@ -14,7 +15,7 @@ export default class QuestionScreen extends React.Component {
 
     componentWillMount = async () => {
         try {
-            const response = await fetch('https://relivee.herokuapp.com/user/1/question', {
+            const response = await fetch(Environment.BASE_URL+'user/1/question', {
                 method: 'GET'
             });
 
@@ -30,7 +31,7 @@ export default class QuestionScreen extends React.Component {
         this.setState({loading: true});
 
         try {
-            await fetch('https://relivee.herokuapp.com/user/1/question', {
+            await fetch(Environment.BASE_URL+'user/1/question', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',

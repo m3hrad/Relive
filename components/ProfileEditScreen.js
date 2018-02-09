@@ -1,6 +1,8 @@
 import React from 'react'
 import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, Switch, ScrollView, TouchableOpacity, FlatList
 } from 'react-native'
+import Environment from '../environment'
+
 
 export default class ProfileEditScreen extends React.Component {
 
@@ -19,7 +21,7 @@ export default class ProfileEditScreen extends React.Component {
 
     componentWillMount = async () => {
         try {
-            const response = await fetch('https://relivee.herokuapp.com/user/0', {
+            const response = await fetch(Environment.BASE_URL+'user/0', {
                 method: 'GET'
             });
 
@@ -33,7 +35,7 @@ export default class ProfileEditScreen extends React.Component {
 
     _setVisibility = async (visibility) =>{
         try {
-            await fetch('https://relivee.herokuapp.com/user/0', {
+            await fetch(Environment.BASE_URL+'user/0', {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
@@ -62,7 +64,7 @@ export default class ProfileEditScreen extends React.Component {
         allLanguages.push(language);
 
         try {
-            await fetch('https://relivee.herokuapp.com/user/0', {
+            await fetch(Environment.BASE_URL+'user/0', {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
@@ -91,7 +93,7 @@ export default class ProfileEditScreen extends React.Component {
         }
 
         try {
-            await fetch('https://relivee.herokuapp.com/user/0', {
+            await fetch(Environment.BASE_URL+'user/0', {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',

@@ -3,6 +3,7 @@ import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, TextInp
     KeyboardAvoidingView} from 'react-native'
 import { AirbnbRating } from 'react-native-ratings';
 import commonStyles from "../styles/CommonStyles";
+import Environment from '../environment'
 
 
 export default class FeedbackScreen extends React.Component {
@@ -17,7 +18,7 @@ export default class FeedbackScreen extends React.Component {
 
     componentWillMount = async () => {
         try {
-            const response = await fetch('https://relivee.herokuapp.com/user/0/interactions/0/feedback', {
+            const response = await fetch(Environment.BASE_URL+'user/0/interactions/0/feedback', {
                 method: 'GET'
             });
 
@@ -38,7 +39,7 @@ export default class FeedbackScreen extends React.Component {
         this.setState({loading: true});
 
         try {
-            await fetch('https://relivee.herokuapp.com/user/0/interactions/0/feedback', {
+            await fetch(Environment.BASE_URL+'/user/0/interactions/0/feedback', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -93,7 +94,8 @@ export default class FeedbackScreen extends React.Component {
                         />
                     </View>
                     <Text style={commonStyles.mainText}>
-                        How do you rate your interaction with {feedback.askedName} in {feedback.communityName} about the {feedback.questionCategory}?
+                        How do you rate your interaction with {feedback.askedName} in {feedback.communityName} about the
+                        { }{feedback.questionCategory}?
                     </Text>
                     <AirbnbRating
                         size={20}

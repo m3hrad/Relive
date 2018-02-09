@@ -1,7 +1,9 @@
 import React from 'react'
 import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, Switch, ScrollView, Button, TouchableOpacity
 } from 'react-native'
-import commonStyles from '../styles/CommonStyles';
+import commonStyles from '../styles/CommonStyles'
+import Environment from '../environment'
+
 
 export default class ProfileScreen extends React.Component {
 
@@ -16,7 +18,7 @@ export default class ProfileScreen extends React.Component {
 
     componentWillMount = async () => {
         try {
-            const response = await fetch('https://relivee.herokuapp.com/user/0', {
+            const response = await fetch(Environment.BASE_URL+'user/0', {
                 method: 'GET'
             });
 
@@ -30,7 +32,7 @@ export default class ProfileScreen extends React.Component {
 
     _setVisibility = async (visibility) =>{
         try {
-            await fetch('https://relivee.herokuapp.com/user/0', {
+            await fetch(Environment.BASE_URL+'user/0', {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',

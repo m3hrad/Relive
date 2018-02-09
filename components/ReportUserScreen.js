@@ -2,6 +2,8 @@ import React from 'react'
 import { View, Text, ActivityIndicator, StyleSheet, Image, SafeAreaView, TextInput, ScrollView, TouchableOpacity
 } from 'react-native'
 import commonStyles from "../styles/CommonStyles";
+import Environment from '../environment'
+
 
 export default class ReportUserScreen extends React.Component {
 
@@ -16,7 +18,7 @@ export default class ReportUserScreen extends React.Component {
 
     componentWillMount = async () => {
         try {
-            const response = await fetch('https://relivee.herokuapp.com/user/0', {
+            const response = await fetch(Environment.BASE_URL+'user/0', {
                 method: 'GET'
             });
             const data = await response.json();
@@ -34,7 +36,7 @@ export default class ReportUserScreen extends React.Component {
         this.setState({loading: true});
 
         try {
-            await fetch('https://relivee.herokuapp.com/user/0/report', {
+            await fetch(Environment.BASE_URL+'user/0/report', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',

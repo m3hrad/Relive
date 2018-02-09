@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, ActivityIndicator, TouchableOpacity, StyleSheet, Image, SafeAreaView, ScrollView } from 'react-native'
-import commonStyles from '../styles/CommonStyles';
-
+import commonStyles from '../styles/CommonStyles'
+import Environment from '../environment'
 
 export default class CommunityQuestionScreen extends React.Component {
 
@@ -13,7 +13,7 @@ export default class CommunityQuestionScreen extends React.Component {
 
     componentWillMount = async () => {
         try {
-            const response = await fetch('https://relivee.herokuapp.com/communities/current');
+            const response = await fetch(Environment.BASE_URL+'communities/current');
             const community = await response.json();
 
             this.setState({loading: false, community: community})
@@ -86,7 +86,6 @@ export default class CommunityQuestionScreen extends React.Component {
         )
     }
 }
-
 
 const styles = StyleSheet.create({
     emptyView: {

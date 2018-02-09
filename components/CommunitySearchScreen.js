@@ -1,6 +1,8 @@
 import React from 'react'
 import { View, Text, ActivityIndicator, ScrollView, Image, SafeAreaView, TextInput, FlatList, TouchableOpacity} from 'react-native'
 import commonStyles from '../styles/CommonStyles';
+import Environment from '../environment'
+
 
 export default class QuestionScreen extends React.Component {
 
@@ -16,7 +18,7 @@ export default class QuestionScreen extends React.Component {
         this.setState({loading: true});
 
         try {
-            const response = await fetch('https://relivee.herokuapp.com/communities', {
+            const response = await fetch(Environment.BASE_URL+'communities', {
                 method: 'GET'
             });
 
