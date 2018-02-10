@@ -70,7 +70,7 @@ export default class ProfileScreen extends React.Component {
                             </Text>
                         </TouchableOpacity>
                         <Text style={commonStyles.button}/>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('CommunitySearchScreen')}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('CommunitySearch')}>
                             <Text style={commonStyles.button}>
                                 All Communities
                             </Text>

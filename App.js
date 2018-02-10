@@ -11,6 +11,7 @@ import ReportUserScreen from './components/ReportUserScreen';
 import CommunitySearchScreen from './components/CommunitySearchScreen';
 import ProfileEditScreen from './components/ProfileEditScreen';
 import SettingsScreen from './components/SettingsScreen';
+import MyCommunitiesScreen from './components/MyCommunitiesScreen';
 
 
 
@@ -29,11 +30,17 @@ const ProfileStack = StackNavigator({
     Settings: { screen: SettingsScreen }
 });
 
+const CommunitiesStack = StackNavigator({
+    Communities: { screen: CommunitiesScreen },
+    CommunitySearch: { screen: CommunitySearchScreen },
+    MyCommunities: { screen: MyCommunitiesScreen },
+});
+
 export default TabNavigator(
     {
         ProfileStack: { screen: ProfileStack },
         CommunityStack: { screen: CommunityStack },
-        Communities: { screen: CommunitiesScreen },
+        CommunitiesStack: { screen: CommunitiesStack },
     },
     {
         navigationOptions: ({ navigation }) => ({
@@ -44,7 +51,7 @@ export default TabNavigator(
                     iconName = `ios-information-circle${focused ? '' : '-outline'}`;
                 } else if (routeName === 'CommunityStack') {
                     iconName = `ios-options${focused ? '' : '-outline'}`;
-                } else if (routeName === 'Communities') {
+                } else if (routeName === 'CommunitiesStack') {
                     iconName = `ios-options${focused ? '' : '-outline'}`;
                 }
 
