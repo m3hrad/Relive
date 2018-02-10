@@ -24,7 +24,7 @@ const CommunityStack = StackNavigator({
 });
 
 const ProfileStack = StackNavigator({
-    Profile: { screen: SettingsScreen},
+    Profile: { screen: ProfileScreen},
     ProfileEdit: { screen: ProfileEditScreen },
     Settings: { screen: SettingsScreen }
 });
