@@ -71,7 +71,6 @@ export default TabNavigator(
             style: {
                 backgroundColor: 'white',
                 borderTopColor: "transparent"
-
             },
         },
         animationEnabled: true,
